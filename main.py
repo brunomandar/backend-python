@@ -2,12 +2,12 @@ import pandas as pd
 
 @app.get("/dados")
 def dados():
-    df = pd.read_excel("Base - Projetos Logistica 2026.xlsm.xlsx", sheet_name="PORTFOLIO_LOGISTICA")
+    df = pd.read_excel("Base - Projetos Logistica 2026.xlsm", sheet_name="PORTFOLIO_LOGISTICA")
     return df.to_dict(orient="records")
 @app.get("/dashboard")
 
 def dashboard():
-    df = pd.read_excel("Base - Projetos Logistica 2026.xlsm.xlsx", sheet_name="PORTFOLIO_LOGISTICA")
+    df = pd.read_excel("Base - Projetos Logistica 2026.xlsm", sheet_name="PORTFOLIO_LOGISTICA")
 
     total = len(df)
 
