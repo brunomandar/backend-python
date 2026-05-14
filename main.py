@@ -23,20 +23,23 @@ def dados():
 # 🔹 DASHBOARD
 @app.get("/dashboard")
 def dashboard():
-    df = pd.read_excel("Base - Projetos Logistica 2026.xlsm.xlsx", sheet_name="PORTFOLIO_LOGISTICA")
+    try:
+        df = pd.read_excel("Base - Projetos Logistica 2026.xlsm.xlsx")
 
-    total = len(df)
+        total = len(df)
 
-    # Evita erro com valores nulos
-    status_col = df["Status"].fillna("")
+        status_col = df["Status"].fillna("")
 
-    em_dia = status_col.str.contains("Em Dia").sum()
-    atencao = status_col.str.contains("Atenção").sum()
-    critico = status_col.str.contains("Crítico").sum()
+        em_dia = status_col.str.contains("Em Dia").sum()
+        atencao = status_col.str.contains("Atenção").sum()
+        critico = status_col.str.contains("Crítico").sum()
 
-    return {
-        "total": int(total),
-        "em_dia": int(em_dia),
-        "atencao": int(atencao),
-        "critico": int(critico)
-    }
+        return {
+            "total": int(total),
+            "em_dia": int(em_dia),
+            "atencao": int(atencao),
+            "critico": int(critico)
+        }
+
+    except Exception as e:
+        return {"erro": str(e)}
