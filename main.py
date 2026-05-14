@@ -1,20 +1,23 @@
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+import pandas as pd
 
-app = FastAPI()
+@app.get("/dados")
+def dados():
+    df = pd.read_excel("Base - Projetos Logistica 2026.xlsm.xlsx", sheet_name="PORTFOLIO_LOGISTICA")
+    return df.to_dict(orient="records")
+@app.get("/dashboard")
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+def dashboard():
+    df = pd.read_excel("Base - Projetos Logistica 2026.xlsm.xlsx", sheet_name="PORTFOLIO_LOGISTICA")
 
-@app.get("/")
-def home():
-    return {"status": "API funcionando"}
+    total = len(df)
 
-@app.get("/executar")
-def executar():
-    return {"resultado": "Python rodando com sucesso 🚀"}
+    em_dia = df[df["Status"].str.contains("Em Dia", na=False)].shape[0]
+    atencao = df[df["Status"].str.contains("Atenção", na=False)].shape[0]
+    critico = df[df["Status"].str.contains("Crítico", na=False)].shape[0]
+
+    return {
+        "total": total,
+        "em_dia": em_dia,
+        "atencao": atencao,
+        "critico": critico
+    }
