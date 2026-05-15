@@ -26,7 +26,7 @@ def dashboard():
     df = pd.read_excel(
         "Base - Projetos Logistica 2026.xlsm.xlsx",
         sheet_name="PORTFOLIO_LOGISTICA",
-        skiprows=7
+        skiprows=8
     )
 
     total = len(df)
