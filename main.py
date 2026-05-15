@@ -24,7 +24,12 @@ def dados():
 @app.get("/dashboard")
 def dashboard():
     try:
-        df = pd.read_excel("Base - Projetos Logistica 2026.xlsm.xlsx")
+        df = pd.read_excel(
+
+    "Base - Projetos Logistica 2026.xlsm.xlsx",
+    sheet_name="PORTFOLIO_LOGISTICA",
+    skiprows=5
+)
 
         total = len(df)
 
