@@ -4,7 +4,7 @@ import pandas as pd
 
 app = FastAPI()
 
-# Libera acesso do frontend (GitHub Pages)
+# Libera acesso (necessário para seu frontend)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -13,20 +13,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 🔹 DADOS COMPLETOS
-@app.get("/dados")
-def dados():
-    df = pd.read_excel("Base - Projetos Logistica 2026.xlsm.xlsx", sheet_name="PORTFOLIO_LOGISTICA")
-    return df.fillna("").to_dict(orient="records")
-
-
-# 🔹 DASHBOARD
 @app.get("/dashboard")
 def dashboard():
     df = pd.read_excel(
         "Base - Projetos Logistica 2026.xlsm.xlsx",
         sheet_name="PORTFOLIO_LOGISTICA",
-        skiprows=9
+        skiprows=1
     )
 
     total = len(df)
@@ -43,6 +35,15 @@ def dashboard():
         "atencao": int(atencao),
         "critico": int(critico)
     }
+    
+    
+@app.get("/dados")
+def dados():
+    df = pd.read_excel(
+        "Base - Projetos Logistica 2026.xlsm.xlsx",
+        sheet_name="PORTFOLIO_LOGISTICA",
+        skiprows=1
+    )
 
-    except Exception as e:
-        return {"erro": str(e)}
+    return df.fillna("").to_dict(orient="records")
+
